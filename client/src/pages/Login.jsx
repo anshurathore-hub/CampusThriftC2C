@@ -33,10 +33,8 @@ function Login() {
       if (response.ok) {
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(data.user));
-
-        alert("Login successful!");
-
-        navigate("/");
+        console.log(data.user);
+        window.location.href = "/";
       } else {
         alert(data.message);
       }

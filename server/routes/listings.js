@@ -2,6 +2,7 @@ import express from "express";
 import Listing from "../models/Listing.js";
 import upload from "../middleware/upload.js";
 import cloudinary from "../config/cloudinary.js";
+import auth from "../middleware/auth.js";
 
 const router = express.Router();
 
@@ -10,7 +11,7 @@ router.get("/", async (req, res) => {
   res.json(listings);
 });
 
-router.post("/", upload.single("image"), async (req, res) => {
+router.post("/", auth, upload.single("image"), async (req, res) => {
   try {
     let imageUrl = "";
     let imagePublicId = "";
@@ -28,6 +29,7 @@ router.post("/", upload.single("image"), async (req, res) => {
       ...req.body,
       imageUrl,
       imagePublicId,
+      owner: req.user.userId,
     });
 
     res.status(201).json(listing);
@@ -56,9 +58,14 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", auth, async (req, res) => {
   try {
     const listing = await Listing.findById(req.params.id);
+    if (listing.owner.toString() !== req.user.userId) {
+      return res.status(403).json({
+        message: "Not authorized",
+      });
+    }
 
     if (!listing) {
       return res.status(404).json({
@@ -82,13 +89,29 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", auth, async (req, res) => {
   try {
-    const listing = await Listing.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
+    const listing = await Listing.findById(req.params.id);
 
-    res.json(listing);
+    if (!listing) {
+      return res.status(404).json({
+        message: "Listing not found",
+      });
+    }
+
+    if (listing.owner.toString() !== req.user.userId) {
+      return res.status(403).json({
+        message: "Not authorized",
+      });
+    }
+
+    const updatedListing = await Listing.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true },
+    );
+
+    res.json(updatedListing);
   } catch (error) {
     res.status(500).json({
       message: error.message,

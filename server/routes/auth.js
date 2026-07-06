@@ -45,7 +45,7 @@ router.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
 
-    const user = await User.findOne({ username });
+const user = await User.findOne({ username });
 
     if (!user) {
       return res.status(400).json({
@@ -75,7 +75,7 @@ router.post("/login", async (req, res) => {
       token,
       user: {
         id: user._id,
-        name: user.name,
+        username: user.username,
         email: user.email,
       },
     });

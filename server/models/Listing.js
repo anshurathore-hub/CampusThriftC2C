@@ -38,6 +38,10 @@ const listingSchema = new mongoose.Schema(
       type: String,
       default: "Good",
     },
+    owner: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
   },
   {
     timestamps: true,

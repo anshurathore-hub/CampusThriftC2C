@@ -39,6 +39,9 @@ function ListingDetails() {
     try {
       const response = await fetch(`http://localhost:5000/api/listings/${id}`, {
         method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
       });
 
       const data = await response.json();

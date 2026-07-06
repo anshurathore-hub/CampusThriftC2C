@@ -40,6 +40,9 @@ function CreateListing() {
 
       const response = await fetch("http://localhost:5000/api/listings", {
         method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
         body: submitData,
       });
 
