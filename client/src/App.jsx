@@ -7,6 +7,8 @@ import ListingDetails from "./pages/ListingDetails";
 import EditListing from "./pages/EditListing";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
+import MyListings from "./pages/MyListings";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
@@ -19,6 +21,8 @@ function App() {
         <Route path="/listing/:id/edit" element={<EditListing />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/my-listings" element={<MyListings />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </BrowserRouter>
   );

@@ -40,6 +40,20 @@ router.post("/", auth, upload.single("image"), async (req, res) => {
   }
 });
 
+router.get("/my", auth, async (req, res) => {
+  try {
+    const listings = await Listing.find({
+      owner: req.user.userId,
+    });
+
+    res.json(listings);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+});
+
 router.get("/:id", async (req, res) => {
   try {
     const listing = await Listing.findById(req.params.id);

@@ -106,25 +106,37 @@ function CreateListing() {
           required
         />
 
-        <input
-          type="text"
+        <select
           name="category"
-          placeholder="Category"
           value={formData.category}
           onChange={handleChange}
           className="w-full border p-3 rounded"
           required
-        />
+        >
+          <option value="">Select Category</option>
+          <option value="Electronics">Electronics</option>
+          <option value="Books">Books</option>
+          <option value="Stationery">Stationery</option>
+          <option value="Clothes">Clothes</option>
+          <option value="Tickets">Tickets</option>
+          <option value="Sports">Sports</option>
+          <option value="Others">Others</option>
+        </select>
 
-        <input
-          type="text"
+        <select
           name="condition"
-          placeholder="Condition"
           value={formData.condition}
           onChange={handleChange}
           className="w-full border p-3 rounded"
           required
-        />
+        >
+          <option value="">Select Condition</option>
+          <option value="Like New">Like New</option>
+          <option value="Excellent">Excellent</option>
+          <option value="Good">Good</option>
+          <option value="Fair">Fair</option>
+          <option value="Poor">Poor</option>
+        </select>
 
         <input
           type="text"

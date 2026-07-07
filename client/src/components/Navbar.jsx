@@ -12,13 +12,22 @@ function Navbar() {
         <div className="flex items-center gap-4 flex-wrap">
           {user ? (
             <>
-              <span className="font-semibold">{user.username}</span>
+              <Link to="/profile" className="font-semibold hover:text-blue-600">
+                {user.username}
+              </Link>
 
               <Link
                 to="/sell"
                 className="bg-slate-900 text-white px-4 py-2 rounded-lg whitespace-nowrap"
               >
                 Sell an item
+              </Link>
+
+              <Link
+                to="/my-listings"
+                className="border px-4 py-2 rounded-lg hover:bg-gray-100"
+              >
+                My Listings
               </Link>
 
               <button

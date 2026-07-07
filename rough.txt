@@ -1,0 +1,25 @@
+Phase 1 (Core User Features)
+# Profile
+* Edit Profile
+* Change Password
+# Delete Account
+* Settings
+Phase 2 (Marketplace Improvements)
+* Category filters
+* Price filters
+* Search bar
+* Sort (Newest, Lowest Price, Highest Price)
+* Pagination / Infinite scroll
+Phase 3 (Better User Experience)
+* Favorite/Wishlist items
+* Recently viewed
+* Better image gallery
+* Toast notifications
+* Loading spinners
+* Empty state illustrations
+Phase 4 (AI Features)
+* AI-generated product descriptions
+* Auto category detection from image
+* AI price suggestion
+* Scam/spam listing detection
+* Image quality checker

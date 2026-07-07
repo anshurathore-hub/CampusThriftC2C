@@ -2,6 +2,9 @@ import express from "express";
 import bcrypt from "bcryptjs";
 import User from "../models/User.js";
 import jwt from "jsonwebtoken";
+import auth from "../middleware/auth.js";
+import Listing from "../models/Listing.js";
+import cloudinary from "../config/cloudinary.js";
 
 const router = express.Router();
 
@@ -45,7 +48,7 @@ router.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
 
-const user = await User.findOne({ username });
+    const user = await User.findOne({ username });
 
     if (!user) {
       return res.status(400).json({
@@ -78,6 +81,33 @@ const user = await User.findOne({ username });
         username: user.username,
         email: user.email,
       },
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+});
+
+router.delete("/delete-account", auth, async (req, res) => {
+  try {
+    const userId = req.user.userId;
+
+    const listings = await Listing.find({ owner: userId });
+
+    // Delete all images from Cloudinary
+    for (const listing of listings) {
+      if (listing.imagePublicId) {
+        await cloudinary.uploader.destroy(listing.imagePublicId);
+      }
+    }
+
+    await Listing.deleteMany({ owner: userId });
+
+    await User.findByIdAndDelete(userId);
+
+    res.json({
+      message: "Account deleted successfully",
     });
   } catch (error) {
     res.status(500).json({
