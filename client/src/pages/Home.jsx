@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 function Home() {
   const [listings, setListings] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [sortBy, setSortBy] = useState("Newest");
   useEffect(() => {
     const fetchListings = async () => {
       try {
@@ -50,17 +51,44 @@ function Home() {
           ))}
         </div>
 
+        <div className="mb-8">
+          <label className="mr-3 font-medium">Sort By:</label>
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+            className="border rounded-lg p-2"
+          >
+            <option>Newest</option>
+            <option>Oldest</option>
+            <option>Price: Low to High</option>
+            <option>Price: High to Low</option>
+          </select>
+        </div>
+
         {listings.length === 0 ? (
           <p>No listings found.</p>
         ) : (
           <div className="grid gap-4">
-            {listings
+            {[...listings]
               .filter((listing) => {
-                if (selectedCategory === "All") {
-                  return true;
-                }
+                if (selectedCategory === "All") return true;
 
                 return listing.category === selectedCategory;
+              })
+              .sort((a, b) => {
+                if (sortBy === "Newest") {
+                  return new Date(b.createdAt) - new Date(a.createdAt);
+                }
+                if (sortBy === "Oldest") {
+                  return new Date(a.createdAt) - new Date(b.createdAt);
+                }
+                if (sortBy === "Price: Low to High") {
+                  return a.price - b.price;
+                }
+                if (sortBy === "Price: High to Low") {
+                  return b.price - a.price;
+                }
+                return 0;
               })
               .map((listing) => (
                 <Link to={`/listing/${listing._id}`} key={listing._id}>
