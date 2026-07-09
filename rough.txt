@@ -5,10 +5,10 @@ Phase 1 (Core User Features)
 # Delete Account
 * Settings
 Phase 2 (Marketplace Improvements)
-* Category filters
-* Price filters
+# Category filters
+# Price filters
 * Search bar
-* Sort (Newest, Lowest Price, Highest Price)
+#Sort (Newest, Lowest Price, Highest Price)
 * Pagination / Infinite scroll
 Phase 3 (Better User Experience)
 * Favorite/Wishlist items
@@ -17,9 +17,24 @@ Phase 3 (Better User Experience)
 * Toast notifications
 * Loading spinners
 * Empty state illustrations
+⏳ Mark as Sold
+⏳ Wishlist/Favorites
+⏳ Report Listing
+⏳ Frontend Search
+⏳ Price Filter
+⏳ Seller Profiles
 Phase 4 (AI Features)
 * AI-generated product descriptions
 * Auto category detection from image
 * AI price suggestion
 * Scam/spam listing detection
 * Image quality checker
+
+
+A cleaner desktop layout is:
+
+Categories                           Sort By
+
+All Electronics Books ...      [Newest ▼]
+
+We'll polish that later when we do the overall CSS pass.

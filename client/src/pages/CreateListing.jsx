@@ -14,11 +14,137 @@ function CreateListing() {
     condition: "",
   });
 
+  const [loadingAI, setLoadingAI] = useState(false);
+  const [analyzingImage, setAnalyzingImage] = useState(false);
+  const [loadingPrice, setLoadingPrice] = useState(false);
+  const [priceSuggestion, setPriceSuggestion] = useState(null);
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const generateDescription = async () => {
+    if (!formData.title || !formData.category || !formData.condition) {
+      alert("Please enter Title, Category and Condition first.");
+      return;
+    }
+
+    try {
+      setLoadingAI(true);
+
+      const response = await fetch(
+        "http://localhost:5000/api/ai/generate-description",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title: formData.title,
+            category: formData.category,
+            condition: formData.condition,
+          }),
+        },
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setFormData({
+          ...formData,
+          description: data.description,
+        });
+      } else {
+        alert(data.message);
+      }
+    } catch (error) {
+      console.error(error);
+      alert("AI Error");
+    } finally {
+      setLoadingAI(false);
+    }
+  };
+
+  const suggestPrice = async () => {
+    if (!formData.title || !formData.category || !formData.condition) {
+      alert("Please enter Title, Category and Condition first.");
+      return;
+    }
+
+    try {
+      setLoadingPrice(true);
+
+      const response = await fetch(
+        "http://localhost:5000/api/ai/suggest-price",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title: formData.title,
+            category: formData.category,
+            condition: formData.condition,
+          }),
+        },
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setPriceSuggestion(data);
+      } else {
+        alert(data.message);
+      }
+    } catch (error) {
+      console.error(error);
+      alert("AI Error");
+    } finally {
+      setLoadingPrice(false);
+    }
+  };
+
+  const analyzeImage = async () => {
+    if (!image) {
+      alert("Please select an image first.");
+      return;
+    }
+
+    try {
+      setAnalyzingImage(true);
+
+      const formDataImage = new FormData();
+      formDataImage.append("image", image);
+
+      const response = await fetch(
+        "http://localhost:5000/api/ai/analyze-image",
+        {
+          method: "POST",
+          body: formDataImage,
+        },
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setFormData((prev) => ({
+          ...prev,
+          title: data.title,
+          category: data.category,
+          condition: data.condition,
+        }));
+      } else {
+        alert(data.message);
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Image analysis failed.");
+    } finally {
+      setAnalyzingImage(false);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -97,6 +223,32 @@ function CreateListing() {
           required
         />
 
+        <button
+          type="button"
+          onClick={suggestPrice}
+          disabled={loadingPrice}
+          className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 disabled:bg-gray-400"
+        >
+          {loadingPrice ? "🤖 Thinking..." : "💰 Suggest Price"}
+        </button>
+
+        <div className="flex justify-between items-center mb-2">
+          <label className="font-medium">Description</label>
+
+          <button
+            type="button"
+            onClick={generateDescription}
+            disabled={loadingAI}
+            className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 disabled:bg-gray-400"
+          >
+            {loadingAI
+              ? "Generating..."
+              : formData.description
+                ? "🔄 Generate Again"
+                : "✨ Generate with AI"}
+          </button>
+        </div>
+
         <textarea
           name="description"
           placeholder="Description"
@@ -153,6 +305,15 @@ function CreateListing() {
           onChange={(e) => setImage(e.target.files[0])}
           className="w-full border p-3 rounded"
         />
+
+        <button
+          type="button"
+          onClick={analyzeImage}
+          disabled={analyzingImage}
+          className="w-full bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-700 disabled:bg-gray-400"
+        >
+          {analyzingImage ? "🤖 Analyzing..." : "🤖 Analyze Image"}
+        </button>
 
         <button
           className="bg-blue-600 text-white px-6 py-3 rounded"
