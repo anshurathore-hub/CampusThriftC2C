@@ -12,6 +12,7 @@ function CreateListing() {
     description: "",
     category: "",
     condition: "",
+    campus: "Amity Noida Sec-125",
   });
 
   const [loadingAI, setLoadingAI] = useState(false);
@@ -158,6 +159,7 @@ function CreateListing() {
       submitData.append("description", formData.description);
       submitData.append("category", formData.category);
       submitData.append("condition", formData.condition);
+      submitData.append("campus", formData.campus);
       submitData.append("sellerPhone", formData.sellerPhone);
 
       if (image) {
@@ -289,6 +291,20 @@ function CreateListing() {
           <option value="Fair">Fair</option>
           <option value="Poor">Poor</option>
         </select>
+
+        <div>
+          <label className="block mb-2 font-medium">Campus</label>
+
+          <select
+            name="campus"
+            value={formData.campus}
+            onChange={handleChange}
+            className="w-full border p-3 rounded"
+          >
+            <option>Amity Noida Sec-125</option>
+            <option disabled>More campuses coming soon...</option>
+          </select>
+        </div>
 
         <input
           type="text"

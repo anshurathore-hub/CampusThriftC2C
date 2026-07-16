@@ -18,6 +18,26 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    phone: {
+      type: String,
+      default: "",
+    },
+
+    campus: {
+      type: String,
+      default: "Amity Noida Sec-125",
+    },
+
+    bio: {
+      type: String,
+      default: "",
+    },
+    favorites: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Listing",
+      },
+    ],
   },
   {
     timestamps: true,

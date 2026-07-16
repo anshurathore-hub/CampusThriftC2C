@@ -7,7 +7,9 @@ import auth from "../middleware/auth.js";
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-  const listings = await Listing.find();
+  const listings = await Listing.find({
+    sold: false,
+  });
   res.json(listings);
 });
 
@@ -126,6 +128,37 @@ router.put("/:id", auth, async (req, res) => {
     );
 
     res.json(updatedListing);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+});
+
+router.patch("/:id/sold", auth, async (req, res) => {
+  try {
+    const listing = await Listing.findById(req.params.id);
+
+    if (!listing) {
+      return res.status(404).json({
+        message: "Listing not found",
+      });
+    }
+
+    if (listing.owner.toString() !== req.user.userId) {
+      return res.status(403).json({
+        message: "Not authorized",
+      });
+    }
+
+    listing.sold = true;
+
+    await listing.save();
+
+    res.json({
+      message: "Listing marked as sold",
+      listing,
+    });
   } catch (error) {
     res.status(500).json({
       message: error.message,

@@ -38,9 +38,17 @@ const listingSchema = new mongoose.Schema(
       type: String,
       default: "Good",
     },
+    campus: {
+      type: String,
+      default: "Amity Noida Sec-125",
+    },
     owner: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
+    },
+    sold: {
+      type: Boolean,
+      default: false,
     },
   },
   {

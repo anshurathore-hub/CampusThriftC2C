@@ -3,7 +3,7 @@ import { GoogleGenAI } from "@google/genai";
 import upload from "../middleware/upload.js";
 
 const router = express.Router();
-const MODEL = "gemini-flash-latest";
+const MODEL = "gemini-2.5-flash";
 
 const ai = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY,

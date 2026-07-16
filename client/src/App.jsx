@@ -9,6 +9,8 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import MyListings from "./pages/MyListings";
 import Profile from "./pages/Profile";
+import Favorites from "./pages/Favorites";
+import EditProfile from "./pages/EditProfile";
 
 function App() {
   return (
@@ -23,6 +25,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/my-listings" element={<MyListings />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/favorites" element={<Favorites />} />
+        <Route path="/edit-profile" element={<EditProfile />} />
       </Routes>
     </BrowserRouter>
   );

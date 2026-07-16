@@ -12,6 +12,13 @@ router.post("/register", async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
+    if (!/^[a-zA-Z0-9_]{3,20}$/.test(username)) {
+      return res.status(400).json({
+        message:
+          "Username must be 3–20 characters and can contain only letters, numbers and underscores.",
+      });
+    }
+
     if (!email.endsWith("@s.amity.edu") && !email.endsWith("@amity.edu")) {
       return res.status(400).json({
         message: "Only Amity students can register.",
@@ -19,6 +26,14 @@ router.post("/register", async (req, res) => {
     }
 
     const existingUser = await User.findOne({ email });
+
+    const existingUsername = await User.findOne({ username });
+
+    if (existingUsername) {
+      return res.status(400).json({
+        message: "Username is already taken.",
+      });
+    }
 
     if (existingUser) {
       return res.status(400).json({
@@ -80,6 +95,9 @@ router.post("/login", async (req, res) => {
         id: user._id,
         username: user.username,
         email: user.email,
+        phone: user.phone,
+        campus: user.campus,
+        bio: user.bio,
       },
     });
   } catch (error) {
@@ -95,7 +113,6 @@ router.delete("/delete-account", auth, async (req, res) => {
 
     const listings = await Listing.find({ owner: userId });
 
-    // Delete all images from Cloudinary
     for (const listing of listings) {
       if (listing.imagePublicId) {
         await cloudinary.uploader.destroy(listing.imagePublicId);
@@ -110,6 +127,66 @@ router.delete("/delete-account", auth, async (req, res) => {
       message: "Account deleted successfully",
     });
   } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+});
+
+// Update Profile
+router.put("/profile", auth, async (req, res) => {
+  try {
+    const { username, phone, campus, bio } = req.body;
+
+    const user = await User.findById(req.user.userId);
+
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+
+    if (phone && !/^[6-9]\d{9}$/.test(phone)) {
+      return res.status(400).json({
+        message: "Please enter a valid 10-digit Indian phone number.",
+      });
+    }
+
+    if (bio && bio.length > 200) {
+      return res.status(400).json({
+        message: "Bio cannot exceed 200 characters.",
+      });
+    }
+
+    const existingUser = await User.findOne({ username });
+
+    if (existingUser && existingUser._id.toString() !== req.user.userId) {
+      return res.status(400).json({
+        message: "Username is already taken.",
+      });
+    }
+
+    user.username = username;
+    user.phone = phone;
+    user.campus = campus;
+    user.bio = bio;
+
+    await user.save();
+
+    res.json({
+      message: "Profile updated successfully",
+      user: {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+        phone: user.phone,
+        campus: user.campus,
+        bio: user.bio,
+      },
+    });
+  } catch (error) {
+    console.error(error);
+
     res.status(500).json({
       message: error.message,
     });

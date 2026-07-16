@@ -1,34 +1,99 @@
 Phase 1 (Core User Features)
 # Profile
-* Edit Profile
+# Edit Profile
 * Change Password
 # Delete Account
 * Settings
 Phase 2 (Marketplace Improvements)
 # Category filters
 # Price filters
-* Search bar
-#Sort (Newest, Lowest Price, Highest Price)
-* Pagination / Infinite scroll
+# Search bar
+# Sort (Newest, Lowest Price, Highest Price)
+*** Pagination / Infinite scroll
 Phase 3 (Better User Experience)
-* Favorite/Wishlist items
-* Recently viewed
-* Better image gallery
-* Toast notifications
-* Loading spinners
-* Empty state illustrations
-⏳ Mark as Sold
-⏳ Wishlist/Favorites
-⏳ Report Listing
-⏳ Frontend Search
-⏳ Price Filter
+# Favorite/Wishlist items
+*** Recently viewed
+*** Better image gallery
+*** Toast notifications
+*** Loading spinners
+*** Empty state illustrations
+# Mark as Sold
+# Report Listing
+# Frontend Search
+# amity which campus dropdown
 ⏳ Seller Profiles
 Phase 4 (AI Features)
-* AI-generated product descriptions
-* Auto category detection from image
-* AI price suggestion
+# AI-generated product descriptions
+# Auto category detection from image
+# AI price suggestion
 * Scam/spam listing detection
-* Image quality checker
+# Image quality checker
+* redesign ai features
+* website online Loading
+* authentication through id card scan and login through id card scan + password
+* instead of alert change to popup
+
+Later (separate pages)
+
+I'd keep these separate for security and clarity:
+
+🔒 Change Password
+📧 Change Email (with verification)
+🗑 Delete Account
+
+Those actions usually require extra verification.
+
+My suggestion for the profile
+
+Instead of just a plain edit form, let's make the profile actually useful. Something like:
+
+👤 Anshu
+
+📧 anshu@s.amity.edu
+
+📱 +91 80767xxxxx
+
+📍 Amity Noida Sec-125
+
+📝
+2nd year CSE student.
+Mostly selling books and electronics.
+
+──────────────────────
+
+⭐ 4 Active Listings
+
+❤️ 8 Wishlist Items
+
+✔ 3 Items Sold
+
+is number valid for only 10 digit in sell item page
+
+
+just dont show logged in user there own listing on home page
+
+
+If after this the Profile page still shows a blank screen when someone manually types:
+
+localhost:5173/profile
+
+while logged out, then your Profile.jsx needs a guard like:
+
+const user = JSON.parse(localStorage.getItem("user"));
+
+if (!user) {
+  navigate("/login");
+  return null;
+}
+
+or preferably:
+
+useEffect(() => {
+  if (!user) {
+    navigate("/login");
+  }
+}, []);
+We'll likely want to add route protection soon so pages like /profile, /sell, /my-listings, /favorites, and /edit-profile automatically redirect unauthenticated users to the login page.
 
 
 A cleaner desktop layout is:

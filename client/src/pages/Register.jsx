@@ -20,6 +20,12 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!/^[a-zA-Z0-9_]{3,20}$/.test(formData.username)) {
+      alert(
+        "Username must be 3–20 characters and can contain only letters, numbers and underscores.",
+      );
+      return;
+    }
     try {
       const response = await fetch("http://localhost:5000/api/auth/register", {
         method: "POST",
