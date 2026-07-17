@@ -234,6 +234,25 @@ function CreateListing() {
           {loadingPrice ? "🤖 Thinking..." : "💰 Suggest Price"}
         </button>
 
+        {priceSuggestion && (
+          <div className="mt-4 rounded-xl bg-green-50 border border-green-300 p-4">
+            <h3 className="font-semibold text-green-700 mb-2">
+              💰 AI Price Suggestion
+            </h3>
+
+            <p>
+              <strong>Recommended:</strong> ₹{priceSuggestion.recommendedPrice}
+            </p>
+
+            <p>
+              <strong>Expected Range:</strong> ₹{priceSuggestion.minimumPrice} -
+              ₹{priceSuggestion.maximumPrice}
+            </p>
+
+            <p className="mt-2 text-gray-600">{priceSuggestion.reason}</p>
+          </div>
+        )}
+
         <div className="flex justify-between items-center mb-2">
           <label className="font-medium">Description</label>
 

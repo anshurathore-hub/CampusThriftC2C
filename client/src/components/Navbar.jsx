@@ -18,7 +18,12 @@ function Navbar() {
     <nav className="border-b border-slate-200 bg-white px-6 py-4">
       <div className="mx-auto max-w-6xl">
         <div className="flex items-center justify-between">
-          <h2 className="text-xl font-semibold text-slate-800">CampusThrift</h2>
+          <Link
+            to="/"
+            className="text-xl font-semibold text-slate-800 hover:text-blue-600 transition"
+          >
+            CampusThrift
+          </Link>
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             className="md:hidden text-3xl"
@@ -68,7 +73,7 @@ function Navbar() {
                 </Link>
 
                 <button
-                   onClick={handleLogout}
+                  onClick={handleLogout}
                   className="bg-red-600 text-white px-4 py-2 rounded-lg whitespace-nowrap"
                 >
                   Logout
@@ -136,7 +141,7 @@ function Navbar() {
                   </Link>
 
                   <button
-                     onClick={handleLogout}
+                    onClick={handleLogout}
                     className="w-full bg-red-600 text-white px-4 py-3 rounded-lg"
                   >
                     Logout
