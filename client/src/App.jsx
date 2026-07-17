@@ -11,6 +11,8 @@ import MyListings from "./pages/MyListings";
 import Profile from "./pages/Profile";
 import Favorites from "./pages/Favorites";
 import EditProfile from "./pages/EditProfile";
+import ChangePassword from "./pages/ChangePassword";
+import About from "./pages/About";
 
 function App() {
   return (
@@ -27,6 +29,8 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/edit-profile" element={<EditProfile />} />
+        <Route path="/change-password" element={<ChangePassword />} />
+        <Route path="/about" element={<About />} />
       </Routes>
     </BrowserRouter>
   );

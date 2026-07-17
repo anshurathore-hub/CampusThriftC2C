@@ -60,33 +60,40 @@ function Profile() {
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-4">
+        <div className="mt-8 grid grid-cols-2 md:grid-cols-3 gap-4">
           <Link
             to="/my-listings"
-            className="bg-slate-900 text-white px-5 py-3 rounded-lg"
+            className="flex items-center justify-center rounded-xl bg-slate-900 px-5 py-3 text-white font-medium hover:bg-slate-800 transition"
           >
             My Listings
           </Link>
 
           <Link
             to="/edit-profile"
-            className="bg-blue-600 text-white px-5 py-3 rounded-lg"
+            className="flex items-center justify-center rounded-xl bg-blue-600 px-5 py-3 text-white font-medium hover:bg-blue-700 transition"
           >
             Edit Profile
           </Link>
 
           <Link
-            to="/settings"
-            className="bg-gray-700 text-white px-5 py-3 rounded-lg"
+            to="/change-password"
+            className="flex items-center justify-center rounded-xl bg-amber-500 px-5 py-3 text-white font-medium hover:bg-amber-600 transition"
           >
-            Settings
+            Change Password
+          </Link>
+
+          <Link
+            to="/about"
+            className="flex items-center justify-center rounded-xl bg-gray-700 px-5 py-3 text-white font-medium hover:bg-gray-800 transition"
+          >
+            About
           </Link>
 
           <button
             onClick={handleDeleteAccount}
-            className="bg-red-600 text-white px-5 py-3 rounded-lg"
+            className="flex items-center justify-center rounded-xl bg-red-600 px-5 py-3 text-white font-medium hover:bg-red-700 transition"
           >
-            Delete Account
+            🗑 Delete Account
           </button>
         </div>
       </div>

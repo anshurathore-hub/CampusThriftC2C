@@ -193,4 +193,62 @@ router.put("/profile", auth, async (req, res) => {
   }
 });
 
+// Change Password
+router.put("/change-password", auth, async (req, res) => {
+  try {
+    const { currentPassword, newPassword, confirmPassword } = req.body;
+
+    const user = await User.findById(req.user.userId);
+
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+
+    // Check current password
+    const isMatch = await bcrypt.compare(currentPassword, user.password);
+
+    if (!isMatch) {
+      return res.status(400).json({
+        message: "Current password is incorrect.",
+      });
+    }
+
+    if (newPassword.length < 8) {
+      return res.status(400).json({
+        message: "Password must be at least 8 characters long.",
+      });
+    }
+
+    if (newPassword !== confirmPassword) {
+      return res.status(400).json({
+        message: "Passwords do not match.",
+      });
+    }
+
+    const samePassword = await bcrypt.compare(newPassword, user.password);
+
+    if (samePassword) {
+      return res.status(400).json({
+        message: "New password must be different from current password.",
+      });
+    }
+
+    user.password = await bcrypt.hash(newPassword, 10);
+
+    await user.save();
+
+    res.json({
+      message: "Password changed successfully.",
+    });
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+});
+
 export default router;

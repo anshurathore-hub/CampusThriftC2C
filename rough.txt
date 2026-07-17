@@ -32,6 +32,12 @@ Phase 4 (AI Features)
 * website online Loading
 * authentication through id card scan and login through id card scan + password
 * instead of alert change to popup
+*About campusthrift
+
+decide authentication
+1. id card scan
+2. amity id, otp
+3. mobile number
 
 Later (separate pages)
 
