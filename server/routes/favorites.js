@@ -5,7 +5,6 @@ import auth from "../middleware/auth.js";
 
 const router = express.Router();
 
-// Get all favorite listings
 router.get("/", auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.userId).populate("favorites");
@@ -18,7 +17,6 @@ router.get("/", auth, async (req, res) => {
   }
 });
 
-// Add to favorites
 router.post("/:listingId", auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.userId);
@@ -38,7 +36,6 @@ router.post("/:listingId", auth, async (req, res) => {
   }
 });
 
-// Remove from favorites
 router.delete("/:listingId", auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.userId);
